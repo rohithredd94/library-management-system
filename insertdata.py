@@ -15,27 +15,49 @@ for row in csv_data:
     
     i+=1
     print(i)
-    
+    #0 - ISBN, 1 - title, 2 - authors, 3 - author-id, 4 - cover
     data = (row[0],row[1],row[4])
     #print(data)
+    
     try:
         cursor.execute("INSERT INTO book VALUES(%s, %s, %s)", data)
     except:
         print("Duplicate Entry in book")
+    
+    authors = row[2].split(',')
+    #print(len(authors))
 
-    data = (row[3],row[2])
-    #print(data)
-    try:
-        cursor.execute("INSERT INTO authors VALUES(%s, %s)", data)
-    except:
-        print("Duplicate Entry in authors")
+    if(len(authors) > 1):
+        j = 0
+        for x in authors:
+            data = (int(row[3])+j, x)
+            try:
+                cursor.execute("INSERT INTO authors VALUES(%s, %s)", data)
+            except:
+                print("Duplicate Entry in authors")
 
-    data = (row[3],row[0])
-    #print(data)
-    try:
-        cursor.execute("INSERT INTO book_authors VALUES(%s, %s)", data)
-    except:
-        print("Duplicate Entry in book_authors")
+            data = (int(row[3])+j,row[0])
+            #print(data)
+            try:
+                cursor.execute("INSERT INTO book_authors VALUES(%s, %s)", data)
+            except:
+                print("Duplicate Entry in book_authors")
+            j+=1
+
+    else:
+        data = (row[3],row[2])
+        #print(data)
+        try:
+            cursor.execute("INSERT INTO authors VALUES(%s, %s)", data)
+        except:
+            print("Duplicate Entry in authors")
+
+        data = (row[3],row[0])
+        #print(data)
+        try:
+            cursor.execute("INSERT INTO book_authors VALUES(%s, %s)", data)
+        except:
+            print("Duplicate Entry in book_authors")
 
 
 csv_data = csv.reader(file('data/borrowers_actual_set.csv'))
