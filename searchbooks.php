@@ -25,6 +25,7 @@
                     <li><a href="bookloans.php">Book Loans</a></li>
                     <li><a href="addborrower.php">Manage Borrowers</a></li>
                     <li><a href="fines.php">Fines</a></li>
+                    <li><a href="reset.php">Log out</a></li>
                 </ul>
             </div>
         </div>
@@ -35,7 +36,9 @@
     <h1 style="color: black; font-family: sans-serif; font-weight:700; font-size:55px; text-align:center">SEARCH BOOKS</h1>
     <br>
 <?php
+    session_start();
     if($_SERVER["REQUEST_METHOD"] == "GET"){
+    //if(isset($_GET['search'])){
         if(isset($_GET['search']))
             $search = $_GET['search'];
         else
@@ -57,10 +60,13 @@
         </div>
     </form> 
 <?php
+        if($search == '')
+            echo "Please enter a search query";
+        else{
         include('mysql_connect.php');
-        echo var_dump($con)."<br>";
-        $query = "SELECT * FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%');";
-        echo $query;
+        //echo var_dump($con)."<br>";
+        $query = "SELECT * FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%' or authors.author_name like '%".$search."%');";
+        //echo $query;
         $result = mysqli_query($con, $query);
         //echo var_dump($result);
         if($result->num_rows == 0){
@@ -68,12 +74,70 @@
             echo "Try entering different words";
         }else{
             echo $result->num_rows;
+
+        //}
+        //mysqli_close($con);
+    //}
+?>
+    <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
+        <caption class="text-right" style="color:#C00; font-style:italic; font-weight:bold; font-size:20px"><?php echo $rowCount;?> Results</caption>  
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Book Availablity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+<?php
+            while($resultarr = mysqli_fetch_array($result)){
+                $query1 = "SELECT * FROM book_loans where isbn = '%".$resultarr['isbn']."%' and date_in IS NULL;";
+                $result1 = mysqli_query($con,$query1);
+                if($result1->num_rows > 0){
+                    $available = false;
+                }else{
+                    $available = true;
+                }
+                //echo $available;
+                
+?>
+            <tr>
+                <td><?php echo $resultarr['isbn']; ?></td>
+                <td><?php echo $resultarr['title']; ?></td>
+                <td><?php echo $resultarr['author_name']; ?></td>
+                <td><?php echo $available; ?></td>
+                <td>
+                    <?php if($available){//Book is avaialable in this particular library
+                    ?>
+                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary" style="background:#090;" data-bookID="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
+                    <?php
+                        }//closing bracket for: Book is avaialable in this particular library
+                    ?>    
+                </td>
+            </tr>
+<?php
+            }
         }
         mysqli_close($con);
+        }
     }
 ?>
+        </tbody>
+    </table>
+
+    <script>
+    function checkout(buttonID){
+        var button=document.getElementById(buttonID);
+        
+        var bookID = button.getAttribute("data-bookID");
+        var bookTitle = button.getAttribute("data-bookTitle");
+        
+        window.location.href = 'checkout.php?bookID=' + bookID; 
+    }
+    </script>
 
     <footer>
-        <a id="reset" href="reset.php" class="btn btn-default btn-xs custom-button" style="bottom:1%; position:absolute; font-weight:bold">Log out</a>
     </footer>
 </body>
