@@ -11,6 +11,9 @@
 <head>
     <meta charset="utf-8">
     <title>Library Management System</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/validate.js"></script>
+    <link rel="stylesheet" href="css/validate.css">
 </head>
 <body>
     <h2>Library</h2>
