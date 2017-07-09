@@ -55,11 +55,10 @@ CREATE TABLE book_loans (
     card_id     CHAR(8) NOT NULL,
     date_out    DATE NOT NULL,
     due_date    DATE NOT NULL,
-    date_in     DATE NOT NULL,
+    date_in     DATE,
     CONSTRAINT pk_book_loans PRIMARY KEY (loan_id),
     CONSTRAINT fk_loans_isbn FOREIGN KEY (isbn) references book(isbn),
     CONSTRAINT fk_loans_cardid FOREIGN KEY (card_id) references borrowers(card_id)
-
 );
 
 DROP TABLE IF EXISTS fines;

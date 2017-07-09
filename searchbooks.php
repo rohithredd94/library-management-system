@@ -17,7 +17,7 @@
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
            <div class="navbar-header">
-                <a href="index.php" class="navbar-brand">Eugene McDermott Library</a>
+                <a href="welcome.php" class="navbar-brand">Eugene McDermott Library</a>
             </div>
             <div id="navbarCollapse" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -93,12 +93,14 @@
         <tbody>
 <?php
             while($resultarr = mysqli_fetch_array($result)){
-                $query1 = "SELECT * FROM book_loans where isbn = '%".$resultarr['isbn']."%' and date_in IS NULL;";
+                $query1 = "SELECT * FROM book_loans where isbn like '%".$resultarr['isbn']."%' and date_in IS NULL;";
                 $result1 = mysqli_query($con,$query1);
                 if($result1->num_rows > 0){
-                    $available = false;
+                    $flag = false;
+                    $available = "Not Available";
                 }else{
-                    $available = true;
+                    $flag = true;
+                    $available = "Available";
                 }
                 //echo $available;
                 
@@ -109,9 +111,9 @@
                 <td><?php echo $resultarr['author_name']; ?></td>
                 <td><?php echo $available; ?></td>
                 <td>
-                    <?php if($available){//Book is avaialable in this particular library
+                    <?php if($flag){//Book is avaialable in this particular library
                     ?>
-                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary" style="background:#090;" data-bookID="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
+                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary" style="background:#090;" data-isbn="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
                     <?php
                         }//closing bracket for: Book is avaialable in this particular library
                     ?>    
@@ -131,10 +133,10 @@
     function checkout(buttonID){
         var button=document.getElementById(buttonID);
         
-        var bookID = button.getAttribute("data-bookID");
+        var isbn = button.getAttribute("data-isbn");
         var bookTitle = button.getAttribute("data-bookTitle");
         
-        window.location.href = 'checkout.php?bookID=' + bookID; 
+        window.location.href = 'checkout.php?isbn=' + isbn; 
     }
     </script>
 
