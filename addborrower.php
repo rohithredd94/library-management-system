@@ -13,6 +13,7 @@
     <!--<script src="js/bootstrap.min.js"></script>-->
     <script src="js/check.js"></script>
     <link rel="stylesheet" href="css/validate.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
@@ -79,7 +80,7 @@
         </div>
         <div class="form-group">
             <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit" class="btn btn-primary" style="color:#FFF; background:#F60">Register</button>
+                <button type="submit" class="btn btn-primary custom-button" style="color:#FFF; background:#F60">Register</button>
             </div>
         </div>
         </form> 

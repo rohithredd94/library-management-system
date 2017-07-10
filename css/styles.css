@@ -16,6 +16,10 @@ text-center-align {
     border: none;
 }
 
+.custom-button:hover {
+    background: #FFF;
+}
+
 .buttons-center-align {
     text-align: center;
     margin-bottom: 100px;
