@@ -17,7 +17,7 @@ text-center-align {
     font-weight: bold;
 }
 
-.new-button {
+.my-button {
     /*display: inline-block !important;*/
     text-align: center;
     text-transform: uppercase;
@@ -25,6 +25,14 @@ text-center-align {
     border-radius: 4px;
     margin: 10px;
     border: none;
+    opacity: 2.0;
+    background-color: #2575f7;
+    font-size: 20px;
+}
+.my-button:hover{
+    opacity: 1.0;
+    background-color: #025ef2;
+    border: 2px solid black;
 }
 
 .custom-button:hover {
@@ -41,7 +49,8 @@ body {
     margin-top: 50px;
     margin-bottom: 50px;
     background: none;
-    font-family: 'Raleway', serif;
+    font-family: 'PT Sans','Raleway', serif;
+    font-size: 24px;
 }
 
 .table-center-align
@@ -50,3 +59,51 @@ body {
   float: none !important;
 }
 
+.main-heading{
+    text-align: center;
+    font-weight:700; 
+    font-size:55px; 
+    font-family: 'Overpass',sans-serif;
+}
+
+p.info1{
+    text-align: center;
+}
+
+.form-login{
+    text-align: center;
+}
+
+.input-ctrl{
+    max-width: 500px !important;
+}
+
+.homepage-background {
+  background: url("/images/2.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  
+}
+footer p{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center; 
+    font-size: 16px;
+    font-weight:bold;
+    color: black;
+}
+
+.welcome-background {
+    background: url(images/seamlesspaper.png) top left repeat, url(images/bg_image_watzmann_3.jpg) top left no-repeat;
+    background-attachment: fixed;
+    background-position: top left;
+    -webkit-background-size: auto, cover;
+    -moz-background-size: auto, cover;
+    -o-background-size: auto, cover;
+    background-size: auto, cover;
+}

@@ -15,7 +15,7 @@ $(document).ready(function() {
     $("#username").focusin(function(){
         $("#span1").empty().removeClass("ok").removeClass("error");
         var element = document.getElementById("span1")//.nextSibling;
-        var node = document.createTextNode("infoMessage: only alphanumeric characters");
+        var node = document.createTextNode("only alphanumeric characters");
         element.appendChild(node);
         $(element).addClass("info");
     });
@@ -41,7 +41,7 @@ $(document).ready(function() {
     $("#password").focusin(function(){  
         $("#span2").empty().removeClass("ok").removeClass("error");
         var element = document.getElementById("span2");
-        var node = document.createTextNode("infoMessage: atleast 8 characters");
+        var node = document.createTextNode("atleast 5 characters");
         element.appendChild(node);
         $(element).addClass("info");
     });

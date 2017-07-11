@@ -3,16 +3,16 @@
 }
 
 .ok {
-    background: #cfc;
-    border: 2px solid #9c9;
+    border: none;
+    color: green;
 }
 
 .info {
-    background: #ffc;
-    border: 2px solid #cc9;
+    border: none;
+    color: black;
 }
 
 .error {
-    background: #fcc;
-    border: 2px solid #c99;
+    border: none;
+    color: red;
 }
