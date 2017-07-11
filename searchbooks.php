@@ -73,25 +73,36 @@
         else{
         include('mysql_connect.php');
         //echo var_dump($con)."<br>";
-        $count = substr_count($search, ',');
+        /*$count = substr_count($search, ',');
         if($count == 2){
             $sarr = explode(",", $search);
             //var_dump($sarr);
             $arr['1'] = str_replace(" ","%%",$arr['1']);
-            $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$sarr['0']."%') or (book.title like '%".$sarr['1']."%') or (authors.author_name like '%".$sarr['2']."%') limit 1000;";
+            $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$sarr['0']."%') and (book.title like '%".$sarr['1']."%') and (authors.author_name like '%".$sarr['2']."%') limit 1000;";
             echo $query;
         }elseif($count==1){
             $sarr = explode(",", $search);
             //var_dump($sarr);
             $arr['1'] = str_replace(" ","%%",$arr['1']);
-            $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$sarr['0']."%') or (book.title like '%".$sarr['1']."%' or authors.author_name like '%".$sarr['1']."%') limit 1000;";
+            $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$sarr['0']."%') and (book.title like '%".$sarr['1']."%' or authors.author_name like '%".$sarr['1']."%') limit 1000;";
             echo $query;
         }else{
             $search = str_replace(" ","%%",$search);
             $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%' or authors.author_name like '%".$search."%') limit 1000;";
             echo $query;
+        }*/
+        $sarr = explode(" ", $search);
+        $query1 = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id";
+
+        foreach ($sarr as $value) {
+            $query1 = $query1 . " AND (book.isbn like '%".$value."%' or book.title like '%".$value."%' or authors.author_name like '%".$value."%')";
         }
-        $result = mysqli_query($con, $query);
+        $query1 = $query1 . " limit 1000;";
+        echo $query1;        
+
+        $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%' or authors.author_name like '%".$search."%') limit 1000;";
+
+        $result = mysqli_query($con, $query1);
         //echo var_dump($result);
         if($result->num_rows == 0){
             echo "Nothing matches input string";
