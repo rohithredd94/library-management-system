@@ -84,7 +84,7 @@
         if($resultarr['fine'] != NULL) {
 
 ?>
-            <br><p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">You have to pay $<?php echo $resultarr['fine'];?></p>
+            <br><p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">You have an outstanding due of $<?php echo $resultarr['fine'];?></p>
             <a href="fines.php?cardNo=<?php echo $cardNo;?>&pay=1" class="btn btn-primary" style="color:#000; background:#FFF; margin-left:5%">Pay Fine</a>
 <?php
         }else{
@@ -98,29 +98,83 @@
     if(isset($_GET['cardNo']) && isset($_GET['pay'])){
         $cardNo = $_GET['cardNo'];
         include('mysql_connect.php');
-
+        $query1 = "SELECT * FROM fines, book_loans WHERE fines.loan_id = book_loans.loan_id and book_loans.card_id = '".$cardNo."' and paid = '0';";
         $query = "SELECT COUNT(*) FROM book_loans where card_id = '".$cardNo."' AND due_date < '".date("Y-m-d")."' AND date_in IS NULL;"; //Check if books have been returned
-        echo $query;
-        $result2 = mysqli_query($con, $query);
-        $resultarr2 = mysqli_fetch_array($result2);
-
-        if($resultarr2['COUNT(*)'] > 0){//Book/s isn't returend yet
+        echo $query1;
+        $result2 = mysqli_query($con, $query1);
+        //$resultarr2 = mysqli_fetch_array($result2);
 ?>
-            <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Some books checked out by user are past due date. Please return those books to pay the fine. Thnak You.</p>
+        <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
+        
+            <thead>
+                <tr>
+                    <th>Loan ID</th>
+                    <th>Card No.</th>
+                    <th>ISBN</th>
+                    <th>Fine Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 <?php
-        }else{//Pay fine
-            $query = "UPDATE fines SET paid = '1' where loan_id in (select loan_id from book_loans where card_id = '".$cardNo."');";
-            echo $query;
-            $result3 = mysqli_query($con, $query);
-            if($result3){
+        //edit starts here
+        while($resultarr2 = mysqli_fetch_array($result2)){
 ?>
-                <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Fine Paid.</p>
+                <tr>
+                    <td><?php echo $resultarr2['loan_id']; ?></td>
+                    <td><?php echo $resultarr2['card_id']; ?></td>
+                    <td><?php echo $resultarr2['isbn']; ?></td>
+                    <td><?php echo $resultarr2['fine_amt']; ?></td>
+                
+<?php
+            if($resultarr2['date_in'] == NULL){
+?>
+                    <td>Book is still out</td>
+                </tr>
+<?php
+            }else{
+?>
+                    <td><button type="button" id=" <?php echo $resultarr2['loan_id']?> " class="btn btn-primary" style="background:#090;" data-loanid="<?php echo $resultarr2['loan_id']; ?>" onClick="pay_fine(this.id)">Pay Fine</button></td>
+                </tr>
 <?php
             }
         }
         mysqli_close($con);
-    }   
+    }
+    if(isset($_GET['loanid'])){
+        include('mysql_connect.php');
+        $query = "SELECT * FROM fines where loan_id = '".$_GET['loanid']."';";
+        echo $query;
+        $result = mysqli_query($con, $query);
+        if($result->num_rows == 1){
+            $query = "UPDATE fines SET paid = '1' where loan_id = '".$_GET['loanid']."';";
+            echo $query;
+            $result1 = mysqli_query($con, $query);
+            if($result1){
+?>
+                <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Fine Paid for this book</p>
+                <a type="button" class="btn" style="background:#090; color:#FFF; font-weight:bold" href="fines.php">Done</a>
+<?php
+            }else{
+?>
+                <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Couldn't pay the fine</p>
+<?php
+            }
+        }else{
+            echo "Something is wrong";
+        }
+        mysqli_close($con);
+    }
+           
 ?> 
-
+<script>
+    
+function pay_fine(buttonID){
+    var button = document.getElementById(buttonID);
+    var loanID = button.getAttribute("data-loanid");
+    window.location.href = "fines.php?loanid=" + loanID;
+    
+}
+</script>
 </body>
 </html>
