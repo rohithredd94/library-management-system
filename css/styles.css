@@ -14,10 +14,21 @@ text-center-align {
     border-radius: 4px;
     margin: 10px;
     border: none;
+    font-weight: bold;
+}
+
+.new-button {
+    /*display: inline-block !important;*/
+    text-align: center;
+    text-transform: uppercase;
+    padding: 13px 35px 13px 35px;
+    border-radius: 4px;
+    margin: 10px;
+    border: none;
 }
 
 .custom-button:hover {
-    background: #FFF;
+    background: black;
 }
 
 .buttons-center-align {
@@ -30,6 +41,7 @@ body {
     margin-top: 50px;
     margin-bottom: 50px;
     background: none;
+    font-family: 'Raleway', serif;
 }
 
 .table-center-align

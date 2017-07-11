@@ -86,8 +86,8 @@
             </div>
             <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-10">
-                    <a class="btn btn-primary" style="color:#FFF; background:#090" onclick="checkin()">Checkin</a>
-                    <a class="btn btn-primary" style="color:#FFF; background:#090" onclick="checkout()">Checkout</a>
+                    <a class="btn btn-primary custom-button" style="color:#FFF; background:#090" onclick="checkin()">Checkin</a>
+                    <a class="btn btn-primary custom-button" style="color:#FFF; background:#090" onclick="checkout()">Checkout</a>
                 </div>
             </div>
         </form>

@@ -8,13 +8,15 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
      <!-- Custom CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
 
     <script src="js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 </head>
 <body>
 
-    <h1 class="text-center-align" style="font-weight:bold; font-size:55px">Eugene McDermott Library</h1>
+    <h1 class="text-center-align" style="font-weight:bold; font-size:55px; font-family: 'Overpass',sans-serif;">Eugene McDermott Library</h1>
 
     <div class="buttons-center-align">
         <a href="searchbooks.php" class="btn btn-primary custom-button">Search Books</a>

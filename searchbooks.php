@@ -1,3 +1,8 @@
+<?php
+    if(!isset($_SESSION['username']) || !isset($_SESSION['name'])){
+        header('Location: login.php');
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +13,12 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
      <!-- Custom CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <!--<script src="js/bootstrap.min.js"></script>-->
 
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 </head>
 <body>
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
@@ -33,7 +40,7 @@
     </nav>
 
     <br><br>
-    <h1 style="color: black; font-family: sans-serif; font-weight:700; font-size:55px; text-align:center">SEARCH BOOKS</h1>
+    <h1 style="color: black; font-family: 'Overpass',sans-serif; font-weight:700; font-size:55px; text-align:center">SEARCH BOOKS</h1>
     <br>
 <?php
     session_start();
@@ -48,7 +55,7 @@
 ?>
     <form class="form-horizontal" action="searchbooks.php" method="GET">
         <div class="form-group">
-            <label for="search" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Search</label>
+            <label for="search" class="control-label col-xs-2" style="color:#000; font-weight:bold; font-size:20px; font-family: 'Raleway', serif;">Search</label>
             <div class="col-xs-10">
                 <input type="text" class="form-control" name="search" placeholder="..." style="max-width:1000px; font-weight:bold" value="<?php echo $search?>">
             </div>
@@ -65,8 +72,18 @@
         else{
         include('mysql_connect.php');
         //echo var_dump($con)."<br>";
-        $query = "SELECT * FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%' or authors.author_name like '%".$search."%');";
-        //echo $query;
+        if(stripos($search, ',')){
+            $sarr = explode(",", $search);
+            var_dump($sarr);
+            $search = str_replace(" ","%%",$search);
+            $query = "SELECT * FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$sarr['0']."%') and (book.title like '%".$sarr['1']."%' or authors.author_name like '%".$sarr['1']."%');";
+            echo $query;
+        }else{
+            echo "Hello2";
+            $search = str_replace(" ","%%",$search);
+            $query = "SELECT * FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%' or authors.author_name like '%".$search."%');";
+            echo $query;
+        }
         $result = mysqli_query($con, $query);
         //echo var_dump($result);
         if($result->num_rows == 0){
@@ -80,7 +97,7 @@
     //}
 ?>
     <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
-        <caption class="text-right" style="color:#C00; font-style:italic; font-weight:bold; font-size:20px"><?php echo $rowCount;?> Results</caption>  
+        <caption class="text-right" style="color:#C00; font-style:italic; font-weight:bold; font-size:20px"><?php echo $result->num_rows;?> Results</caption>  
         <thead>
             <tr>
                 <th>Book ID</th>
@@ -113,7 +130,7 @@
                 <td>
                     <?php if($flag){//Book is avaialable in this particular library
                     ?>
-                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary" style="background:#090;" data-isbn="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
+                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary new-button" style="background:#090;" data-isbn="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
                     <?php
                         }//closing bracket for: Book is avaialable in this particular library
                     ?>    
