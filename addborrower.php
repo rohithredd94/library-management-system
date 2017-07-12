@@ -43,6 +43,9 @@
         #error{
             color:#F60; font-size:18px; font-weight:bold; text-align:left; list-style-type: none;
         }
+        div.col-xs-10,div.col-xs-4{
+            padding-top: 5px;
+        }
     </style>
 </head>
 <body>

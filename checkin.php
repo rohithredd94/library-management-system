@@ -14,10 +14,24 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
      <!-- Custom CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        input{
+            width: 100%;
+            max-width: 100%;
+            font-weight: bold;
+        }
+        div.col-xs-10{
+            padding-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,9 +51,19 @@
             </div>
         </div>
     </nav>
-
+    <div id="wrap">
+    <div class="col-lg-12">
+        <div class="col-lg-2">
+            <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
+        </div>
+        <div class="col-lg-8">
+            <h1 class="main-heading">Check In</h1>
+        </div>
+        <div class="col-lg-2">
+            <p>Today's date is <?php echo date('Y-m-d');?></p>
+        </div>
+    </div>
     <br>
-    <h1 style="color:#090; font-family:sans-serif; font-weight:700; font-size:55px; text-align:center">CHECKIN</h1><br><br>
 
 <?php
     if(isset($_GET['isbn']))
@@ -63,33 +87,36 @@
 
     //if(!isset($_GET['loanid'])) {
     if($loanid == '') {
-        echo "Hello";
-?>
+?>      
+        <div class="col-lg-12">
+        <div class="col-lg-offset-2 col-lg-8">
         <form class="form-horizontal" action="checkin.php" method="get">
             <div class="form-group">
-                <label for="cardNo" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Card No.</label>
+                <label for="cardNo" class="control-label col-xs-2">Borrower ID</label>
                 <div class="col-xs-10">
-                    <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No....." style="max-width:1000px; font-weight:bold" value="<?php echo $cardNo?>">
+                    <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No....." value="<?php echo $cardNo?>">
                 </div>
             </div>
             <div class="form-group">
-                <label for="bname" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Borrower Name</label>
+                <label for="bname" class="control-label col-xs-2">Borrower Name</label>
                 <div class="col-xs-10">
-                    <input type="text" id="bname" class="form-control" name="bname" placeholder="Enter Borrower's name....." style="max-width:1000px; font-weight:bold" value="<?php echo $bname?>">
+                    <input type="text" id="bname" class="form-control" name="bname" placeholder="Enter Borrower's name....." value="<?php echo $bname?>">
                 </div>
             </div>
             <div class="form-group">
-                <label for="isbn" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">ISBN</label>
+                <label for="isbn" class="control-label col-xs-2">ISBN</label>
                 <div class="col-xs-10">
-                    <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter ISBN number....." style="max-width:1000px; font-weight:bold" value="<?php echo $isbn?>">
+                    <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter ISBN number....." value="<?php echo $isbn?>">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-10">
-                    <button type="submit" class="btn btn-primary" style="color:#FFF; background:#090">Search Loan Record</button>
+                    <button type="submit" class="btn btn-primary new-button">Search Loan Record</button>
                 </div>
             </div>
         </form> 
+        </div>
+        </div>
 <?php
     }
     if($loanid == ''){
@@ -97,7 +124,7 @@
         //if(isset($_GET['isbn']) || isset($_GET['cardNo']) || isset($_GET['bname'])){
         if($isbn != '' || $cardNo != '' || $bname != ''){
             $query = "SELECT * from book, book_authors, borrowers, book_loans where book.isbn=book_loans.isbn and book.isbn=book_authors.isbn and borrowers.card_id=book_loans.card_id and book_loans.date_in IS NULL and (book_loans.card_id like \"%".$cardNo."%\" or borrowers.Bname like \"%".$bname."%\" or book.isbn like \"%".$isbn."%\");"; 
-            echo $query;
+            //echo $query;
 
             $query1 = "SELECT * from book, book_authors, borrowers, book_loans where book.isbn=book_loans.isbn and book.isbn=book_authors.isbn and borrowers.card_id=book_loans.card_id and book_loans.date_in IS NULL and (";
             if($cardNo != ''){
@@ -114,12 +141,11 @@
             }else{
                 $query1 = $query1."book.isbn IS NULL);";
             }
-            echo $query1;
+            //echo $query1;
             $result = mysqli_query($con, $query1);
             if($result->num_rows > 0){
 ?>
-           <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
-                <caption class="text-right" style="color:#C00; font-style:italic; font-weight:bold; font-size:20px"><?php echo $rowCount;?> Results</caption>  
+           <table class="table table-center-align"> 
                 <thead>
                     <tr>
                         <th>Loan ID</th>
@@ -146,7 +172,7 @@
                         <td><?php echo $resultarr['date_out']?></td>
                         <td><?php echo $resultarr['due_date']?></td>
                         <td>
-                            <button type="button" id=" <?php echo $resultarr['loan_id']?> " class="btn btn-primary" style="background:#090;" data-loanid="<?php echo $resultarr['loan_id']; ?>" onClick="checkin(this.id)">Check In</button>
+                            <button type="button" id=" <?php echo $resultarr['loan_id']?> " class="btn btn-primary new-button-small" data-loanid="<?php echo $resultarr['loan_id']; ?>" onClick="checkin(this.id)">Check In</button>
                         <?php
                         }
                         ?>
@@ -162,12 +188,14 @@
     } else {
         include('mysql_connect.php');
         $query = "SELECT * from book, book_authors, borrowers, book_loans where book.isbn=book_loans.isbn and book.isbn=book_authors.isbn and borrowers.card_id=book_loans.card_id and book_loans.loan_id = '$loanid';";
-        echo $query;
+        //echo $query;
         $result2 = mysqli_query($con, $query);
         $resultarr2 = mysqli_fetch_array($result2);
-        echo var_dump($resultarr2);
+        //echo var_dump($resultarr2);
 ?>
-        <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
+        <br>
+        <br>
+        <table class="table table-center-align">
                 <thead>
                         <tr>
                             <th>Loan ID</th>
@@ -200,26 +228,26 @@
             </table> 
                 <br>
 <?php
-        echo date('Y-m-d');
         if($resultarr2['date_in'] == NULL && isset($resultarr2)){
             $query = "UPDATE book_loans set date_in = '".date("Y-m-d")."' where loan_id = '$loanid';";
-            echo $query;
+            //echo $query;
             $result3 = mysqli_query($con, $query);
 
             if($result3){
                 ?>
-                <p style="color:#090; font-size:18px; font-weight:bold; text-align:center">The book has been successfully checked in. Thanks!&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a type="button" class="btn" style="background:#090; color:#FFF; font-weight:bold" href="checkin.php">Check In Another Book</a></p>
+                <p class="info1">The book has been successfully checked in. Thanks!&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a type="button" class="btn btn-primary new-button-small" href="checkin.php">Check In Another Book</a></p>
                 <?php
             }
         }else{
             ?>
-                <p style="color:#090; font-size:18px; font-weight:bold; text-align:center">The book has been already been checked in. Thanks!&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a type="button" class="btn" style="background:#090; color:#FFF; font-weight:bold" href="checkin.php">Check In Another Book</a></p>
+                <p style="color:#090; font-size:18px; font-weight:bold; text-align:center">The book has been already been checked in. Thanks!&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a type="button" class="btn btn-primary new-button-small" href="checkin.php">Check In Another Book</a></p>
             <?php
         }
         mysqli_close($con);
     }
 ?>
-
+    <div class="push"></div>
+    </div>
 <script>
     
 function checkin(buttonID){
@@ -229,4 +257,7 @@ function checkin(buttonID){
     
 }
 </script>
+    <footer>
+        <p>Design and Development by Rohith Reddy K</p>
+    </footer>
 </body>

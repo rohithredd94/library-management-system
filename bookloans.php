@@ -40,6 +40,9 @@
         .new-button:hover{
             background-color: green;
         }
+        div.col-xs-10,div.col-xs-4{
+            padding-top: 5px;
+        }
     </style>
 </head>
 
