@@ -24,6 +24,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
     <style>
         p.info1{
             color:#F60; font-size:18px; font-weight:bold; text-align:left;

@@ -23,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
     <style>
         input{
             max-width:1000px; 
@@ -59,7 +60,6 @@
     <div id="wrap">
     <div class="col-lg-12">
         <div class="col-lg-2">
-            <br>
             <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
         </div>
         <div class="col-lg-8">
@@ -67,7 +67,6 @@
             <h1 class="main-heading">SEARCH BOOKS</h1>
         </div>
         <div class="col-lg-2">
-            <br>
             <p>Today's date is <?php echo date('Y-m-d');?></p>
         </div>
     </div>

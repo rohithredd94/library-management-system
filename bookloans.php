@@ -14,10 +14,33 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
      <!-- Custom CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        form{
+            padding-top: 100px;
+        }
+        input{
+            width: 100%;
+            max-width: 100%;
+            font-weight: bold;
+        }
+        .new-button-small{
+            font-size: 16px;
+        }
+        .new-button-small:hover{
+            background-color: red;
+        }
+        .new-button:hover{
+            background-color: green;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,10 +60,19 @@
             </div>
         </div>
     </nav>
-
-
-    <br>
-    <h1 style="color:#090; font-family:sans-serif; font-weight:700; font-size:55px; text-align:center">BOOK LOANS</h1><br><br>
+    <div id="wrap">
+    <div class="col-lg-12">
+        <div class="col-lg-2">
+            <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
+        </div>
+        <div class="col-lg-8">
+            <h1 class="main-heading">Book Loans</h1>
+        </div>
+        <div class="col-lg-2">
+            <p>Today's date is <?php echo date('Y-m-d');?></p>
+        </div>
+    </div>
+    <br><br>
 <?php
     session_start();
     if($_SERVER["REQUEST_METHOD"] == "GET"){
@@ -49,19 +81,21 @@
             $isbn = $_GET['isbn'];
         else
             $isbn = '';
-?>
+?>      
+        <div class="col-lg-12">
+        <div class="col-lg-offset-2 col-lg-8">
         <form class="form-horizontal" action="bookloans.php" method="get">
             <div class="form-group">
-                <label for="cardNo" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Borrower Card ID</label>
+                <label for="cardNo" class="control-label col-xs-2">Borrower ID</label>
                 <div class="col-xs-10">
-                    <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No.." value="<?php echo $_GET['cardNo']?>" style="max-width:1000px; font-weight:bold" >
+                    <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No.." value="<?php echo $_GET['cardNo']?>">
                 </div>
             </div>
             <div class="form-group">
-                <label for="isbn" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">ISBN</label>
+                <label for="isbn" class="control-label col-xs-2">ISBN</label>
                 <div class="col-xs-10">
-                    <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter Book ISBN.." value="<?php echo $_GET['isbn']?>" style="max-width:1000px; font-weight:bold">
-                    <button type="submit" class="btn btn-primary" style="background:#F00; font-weight:bold">Check</button>
+                    <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter Book ISBN.." value="<?php echo $_GET['isbn']?>">
+                    <button type="submit" class="btn btn-primary new-button-small">Check</button>
 <?php
         if($isbn != ''){
             include('mysql_connect.php');
@@ -92,11 +126,15 @@
             </div>
             <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-10">
-                    <a class="btn btn-primary custom-button" style="color:#FFF; background:#090" onclick="checkin()">Checkin</a>
-                    <a class="btn btn-primary custom-button" style="color:#FFF; background:#090" onclick="checkout()">Checkout</a>
+                    <a class="btn btn-primary new-button" onclick="checkin()">Checkin</a>
+                    <a class="btn btn-primary new-button" onclick="checkout()">Checkout</a>
                 </div>
             </div>
         </form>
+        </div>
+        </div>
+        <div class="push"></div>
+        </div>
     <script>
     function checkin()
     {
@@ -119,5 +157,9 @@
      
         window.location='checkout.php?cardNo=' + cardNo + '&isbn=' + isbn;
     }
- </script>
+    </script>
+    <footer>
+        <p>Design and Development by Rohith Reddy K</p>
+    </footer>
 </body>
+</html>
