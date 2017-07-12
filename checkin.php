@@ -31,6 +31,9 @@
         div.col-xs-10{
             padding-top: 5px;
         }
+        p.info1{
+            color: green;
+        }
     </style>
 </head>
 
@@ -240,7 +243,7 @@
             }
         }else{
             ?>
-                <p style="color:#090; font-size:18px; font-weight:bold; text-align:center">The book has been already been checked in. Thanks!&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a type="button" class="btn btn-primary new-button-small" href="checkin.php">Check In Another Book</a></p>
+                <p class="info1">The book has been already been checked in. Thanks!&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a type="button" class="btn btn-primary new-button-small" href="checkin.php">Check In Another Book</a></p>
             <?php
         }
         mysqli_close($con);

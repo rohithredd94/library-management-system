@@ -17,7 +17,24 @@
     <link href="css/styles.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        div.col-xs-10,div.col-xs-4{
+            padding-top: 5px;
+        }
+        p.info1{
+            color: green;
+        }
+        input{
+            width: 100%;
+            max-width: 100%;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
@@ -37,25 +54,38 @@
         </div>
     </nav>
 
-    <br>
-    <h1 style="color:#090; font-family:sans-serif; font-weight:700; font-size:55px; text-align:center">CHECKOUT</h1><br><br>
+    <div id="wrap">
+    <div class="col-lg-12">
+        <div class="col-lg-2">
+            <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
+        </div>
+        <div class="col-lg-8">
+            <h1 class="main-heading">Check Out</h1>
+        </div>
+        <div class="col-lg-2">
+            <p>Today's date is <?php echo date('Y-m-d');?></p>
+        </div>
+    </div>
+    <br><br>
 
 <?php
     if(isset($_GET['isbn']) && !isset($_GET['cardNo'])){
         $isbn = $_GET['isbn'];
 ?>
+    <div class="col-lg-12">
+    <div class="col-lg-offset-2 col-lg-8">
     <form class="form-horizontal" action="checkout.php" method="get">
-    <p class="text-left" style="color:#090; font-style:italic; font-weight:bold; font-size:20px">Please enter your Card No. to checkout this book</p> 
+    <p class="info1">Please enter your Card ID to checkout this book</p> 
         <div class="form-group">
-            <label for="cardNo" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Card No.</label>
+            <label for="cardNo" class="control-label col-xs-2">Borrower ID</label>
             <div class="col-xs-10">
-                <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No....." style="max-width:1000px; font-weight:bold">
+                <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Borrower ID....">
             </div>
         </div>
         <div class="form-group">
-            <label for="isbn" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Book ID</label>
+            <label for="isbn" class="control-label col-xs-2">Book ID</label>
             <div class="col-xs-10">
-                <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter ISBN....." style="max-width:1000px; font-weight:bold" value="<?php echo $isbn?>">
+                <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter ISBN....." value="<?php echo $isbn?>">
             </div>
         </div>
         <div class="form-group">
@@ -64,6 +94,8 @@
             </div>
         </div>
     </form>
+    </div>
+    </div>
 
 <?php
     }
@@ -71,20 +103,22 @@
         $isbn = $_GET['isbn'];
         $cardNo = $_GET['cardNo'];
 ?>
+    <div class="col-lg-12">
+    <div class="col-lg-offset-2 col-lg-8">
     <form class="form-horizontal" action="checkout.php" method="get">
        <div class="form-group">
-            <label for="cardNo" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Card No.</label>
+            <label for="cardNo" class="control-label col-xs-2">Borrower ID</label>
             <div class="col-xs-10">
-                <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No....." style="max-width:1000px; font-weight:bold" value="<?php echo $cardNo?>">
+                <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Borrower ID...." value="<?php echo $cardNo?>">
             </div>
                     <?php   
-                        //check if Card No. is valid
+                        //check if Borrower ID is valid
                         include('mysql_connect.php');
                         $query= "SELECT * from borrowers WHERE card_id = '$cardNo';";
                         $result1= mysqli_query($con,$query);
                         if ($result1->num_rows == 0) { 
                             ?>
-                                <p style="font-weight:bold; color:#F00">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Incorrect Card Number. Kindly check!</p>
+                                <p style="font-weight:bold; color:#F00">&nbsp; &nbsp; &nbsp; &nbsp; Error: Incorrect Card ID</p>
                             <?php   
                         }
                         mysqli_close($con);
@@ -92,9 +126,9 @@
                     ?>
         </div>
         <div class="form-group">
-            <label for="isbn" class="control-label col-xs-2" style="color:#CCC; font-weight:bold; font-size:20px">Book ID</label>
+            <label for="isbn" class="control-label col-xs-2">Book ID</label>
             <div class="col-xs-10">
-                <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter Book ID....." style="max-width:1000px; font-weight:bold" value="<?php echo $isbn?>">
+                <input type="text" id="isbn" class="form-control" name="isbn" placeholder="Enter Book ID....." value="<?php echo $isbn?>">
             </div>
                     <?php   
                         //check if Book ID is valid
@@ -103,7 +137,7 @@
                         $result2= mysqli_query($con,$query);
                         if ($result2->num_rows == 0) { 
                             ?>
-                                <p style="font-weight:bold; color:#F00">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Incorrect ISBN Number. Kindly check!</p>
+                                <p style="font-weight:bold; color:#F00">&nbsp; &nbsp; &nbsp; &nbsp; Error: Incorrect ISBN Number</p>
                             <?php   
                         }
                         mysqli_close($con);
@@ -114,7 +148,7 @@
     ?>
             <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-10">
-                    <button type="submit" class="btn btn-primary" style="background:#090">Check Out</button>
+                    <button type="submit" class="btn btn-primary new-button">Check Out</button>
                 </div>
             </div>
     <?php
@@ -130,8 +164,8 @@
                 
                 <div class="form-group">
                     <div class="col-xs-offset-2 col-xs-10">
-                        <p style="font-weight:bold; color:#F00">Book is not Available for Checkout. Check again later</p>
-                        <a href="bookloans.php" class="btn btn-primary" style="color:#FFF; background:#090">Check Out another book</a></li>
+                        <p class="info1">Book is not Available for Checkout. Check again later</p>
+                        <a href="bookloans.php" class="btn btn-primary new-button">Check Out another book</a></li>
                     </div>
                 </div>
             <?php
@@ -145,8 +179,8 @@
             ?>
                     <div class="form-group">
                         <div class="col-xs-offset-2 col-xs-10">
-                            <p style="font-weight:bold; color:#F00">Check out limit reached. Can't checkout any more books</p>
-                            <a href="bookloans.php" class="btn btn-primary" style="color:#FFF; background:#090">Check Out another book</a></li>
+                            <p class="info1">Check out limit reached. Can't checkout any more books</p>
+                            <a href="bookloans.php" class="btn btn-primary new-button">Check Out another book</a></li>
                         </div>
                     </div>
             <?php
@@ -159,8 +193,8 @@
             ?>
                 <div class="form-group">
                     <div class="col-xs-offset-2 col-xs-10">
-                        <p style="font-weight:bold; color:#F00">Book checked out successfully. Book is due by <?php echo date("Y-m-d", strtotime("+14days"));?></p>
-                        <a href="bookloans.php" class="btn btn-primary" style="color:#FFF; background:#090">Check Out another book</a></li>
+                        <p class="info1">Book checked out successfully. Book is due by <?php echo date("Y-m-d", strtotime("+14days"));?></p>
+                        <a href="bookloans.php" class="btn btn-primary new-button">Check Out another book</a></li>
                     </div>
                 </div>
             <?php
@@ -172,7 +206,17 @@
         }
     ?>
     </form>
+    </div>
+    </div>
 <?php
     }
 ?>
+    <div class="push"></div>
+    </div>
+    <footer>
+        <p>Design and Development by Rohith Reddy K</p>
+    </footer>
 </body>
+
+</html>
+
