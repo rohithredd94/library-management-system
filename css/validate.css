@@ -1,5 +1,6 @@
 .ok, .info, .error {
     padding: 0px 2px;
+    font-size: 16px;
 }
 
 .ok {

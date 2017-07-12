@@ -34,22 +34,7 @@
         div.form-group{
             margin: auto;
         }
-        .container-fluid{
-            background-color: #333333;
-        }
-        a{
-            color: white !important;
-        }
-        a:hover{
-            /*color: #999999 !important;*/
-            font-weight: bold !important;
-        }
-        li.active a{
-            color: black !important;
-        }
-        div.pad{
-            padding-top: 20px;
-        }
+        
     </style>
 </head>
 <body>
@@ -170,7 +155,7 @@
 ?>
     <p class="info1 ok">Search query returned the following results</p>
     
-    <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;"> 
+    <table class="table table-center-align"> 
         <thead>
             <tr>
                 <th>Book ID</th>
@@ -239,3 +224,4 @@
         <p>Design and Development by Rohith Reddy K</p>
     </footer>
 </body>
+</html>

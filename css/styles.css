@@ -139,3 +139,25 @@ html, body { width:100%; height:95%; }
     height:100%;    
     margin: 0 auto -20px;
 }
+
+table{
+    color:#000; background:#999; max-width:1200px;
+    margin: auto;
+}
+
+.container-fluid{
+            background-color: #333333;
+}
+a{
+    color: white !important;
+}
+a:hover{
+    /*color: #999999 !important;*/
+    font-weight: bold !important;
+}
+li.active a{
+    color: black !important;
+}
+div.pad{
+    padding-top: 20px;
+}

@@ -162,7 +162,7 @@ $(document).ready(function() {
     $("#ssn").focusin(function(){  
         $("#spanssn").empty().removeClass("ok").removeClass("error");
         var element = document.getElementById("spanssn");
-        var node = document.createTextNode("Format: XXX-XX-XXXX");
+        var node = document.createTextNode("Format: XXXXXXXXX: 9 digits");
         element.appendChild(node);
         $(element).addClass("info");
     });
@@ -170,7 +170,7 @@ $(document).ready(function() {
         $("#spanssn").empty().removeClass("info").removeClass("ok").removeClass("error");
         var ssn = $("#ssn");
         if(ssn.val().length != 0){ 
-            var pattern = /^[0-9]{3}-[0-9]{2}-[0-9]{4}$/;
+            var pattern = /^[0-9]+$/;
             if(ssn.val().match(pattern)){
                 var element = document.getElementById("spanssn");
                 var node = document.createTextNode("OK");
@@ -188,7 +188,7 @@ $(document).ready(function() {
     $("#phone").focusin(function(){  
         $("#spanphone").empty().removeClass("ok").removeClass("error");
         var element = document.getElementById("spanphone");
-        var node = document.createTextNode("Format: (XXX) XXX-XXX");
+        var node = document.createTextNode("Format: XXXXXXXXX: 10 digits");
         element.appendChild(node);
         $(element).addClass("info");
     });
@@ -196,7 +196,7 @@ $(document).ready(function() {
         $("#spanphone").empty().removeClass("info").removeClass("ok").removeClass("error");
         var phone = $("#phone");
         if(phone.val().length != 0){ 
-            var pattern = /^\([0-9]{3}\)\ [0-9]{3}-[0-9]{4}$/;
+            var pattern = /^[0-9]+$/;
             if(phone.val().match(pattern)){
                 var element = document.getElementById("spanphone");
                 var node = document.createTextNode("OK");

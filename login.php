@@ -32,6 +32,7 @@
     </style>
 </head>
 <body>
+    <div id="wrap">
     <div class="col-lg-12">
         <div class="col-lg-offset-2 col-lg-8">
             <h1 class="main-heading">Eugene McDermott Library</h1><br><br>
@@ -47,6 +48,8 @@
                 <input type="submit" name="submit" class="btn btn-primary my-button" value="Sign in"> 
             </form>
         </div>
+    </div>
+    <div class="push"></div>
     </div>
 </body>
 <footer>

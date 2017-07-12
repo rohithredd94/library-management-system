@@ -28,7 +28,7 @@
     </style>
 </head>
 <body class="welcome-background">
-
+    <div id="wrap">
     <div class="col-lg-12">
         <div class="col-lg-10">
             <h1 class="main-heading">Eugene McDermott Library</h1>
@@ -48,8 +48,8 @@
         <a href="fines.php" class="btn btn-primary custom-button">Fines</a>
     </div>
 
-        
-
+    <div class="push"></div>
+    </div>
     <footer>
         <p>Design and Development by Rohith Reddy K</p>
     </footer>
