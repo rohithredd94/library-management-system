@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Add Borrower</title>
+    <title>Fines</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +20,16 @@
     <script src="js/check.js"></script>
     <link rel="stylesheet" href="css/validate.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        p.info1{
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
@@ -38,6 +48,7 @@
             </div>
         </div>
     </nav>
+    <div id="wrap">
 <?php
     include('mysql_connect.php');
 
@@ -53,7 +64,7 @@
         $paidlist[] = $fine[2];
     }
     $query = "SELECT * FROM book_loans WHERE (due_date < date_in AND date_in IS NOT NULL) OR (date_in IS NULL AND due_date < '".date("Y-m-d")."');";
-    echo $query;
+    //echo $query;
 
     $result2 = mysqli_query($con, $query);
 
@@ -74,18 +85,18 @@
         $daydiff=$daydiff[0];
 
         if(array_search($resultarr['loan_id'], $finelist) == FALSE) {
-            echo "Not in fines"."<br>";
+            //echo "Not in fines"."<br>";
             $fineamt = $daydiff * 0.25;
             $query = "INSERT INTO fines(loan_id,fine_amt, paid) VALUES('".$resultarr['loan_id']."', '".$fineamt."','0');";
-            echo $query;
+            //echo $query;
             $result3 = mysqli_query($con,$query);
             
         }else{
-            echo "In fines"."<br>";
+            //echo "In fines"."<br>";
             $index = array_search($resultarr['loan_id'], $finelist);
             if($paidlist[$index] == '0'){
                 $query = "UPDATE FINES SET fine_amt = '".$daydiff*0.25."' WHERE loan_id = '".$resultarr['loan_id']."';";
-                echo $query;
+                //echo $query;
                 $result3 = mysqli_query($con,$query);
             }
         }
@@ -96,14 +107,14 @@
 <?php
     if(!isset($_GET['filter'])){
 ?>
-        <p style="color: black; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; margin-top:5%; font-style:italic">FINES TABLE UPDATED. Here is a list of all outstanding fines:  </p> 
+        <p class="info1">FINES TABLE UPDATED. Here is a list of all outstanding fines:  </p> 
 <?php
         $query = "SELECT book_loans.card_id, borrowers.Bname, SUM(fines.fine_amt) as fine from fines,book_loans,borrowers WHERE fines.loan_id = book_loans.loan_id AND book_loans.card_id=borrowers.card_id and paid = '0' group by book_loans.card_id;";
-        echo $query;
+        //echo $query;
         $result4 = mysqli_query($con,$query);
         //var_dump($result4);
 ?>
-        <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
+        <table class="table table-center-align">
         
             <thead>
                 <tr>
@@ -126,9 +137,16 @@
 ?>
             </tbody>
         </table>
+        <br>
+        <p class="info1"><a type="button" class="btn btn-primary new-button" href="fines.php">Done</a></p>
 <?php
     }
     mysqli_close($con);
 ?>
+    <div class="push"></div>
+    </div>
+    <footer>
+        <p>Design and Development by Rohith Reddy K</p>
+    </footer>
 </body>
 </html>

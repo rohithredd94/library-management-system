@@ -14,7 +14,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
      <!-- Custom CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">

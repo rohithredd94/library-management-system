@@ -161,3 +161,6 @@ li.active a{
 div.pad{
     padding-top: 20px;
 }
+table{
+    max-width: 1400px !important;
+}

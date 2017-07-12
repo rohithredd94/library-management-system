@@ -8,18 +8,39 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Add Borrower</title>
+    <title>Fines</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
      <!-- CSS -control-->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
     <!--<script src="js/bootstrap.min.js"></script>-->
     <script src="js/check.js"></script>
     <link rel="stylesheet" href="css/validate.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        div.col-xs-10,div.col-xs-4{
+            padding-top: 5px;
+        }
+        input{
+            width: 100%;
+            max-width: 100%;
+            font-weight: bold;
+        }
+        #update{
+            bottom:1%; position:absolute; margin-left: 50px;
+        }
+        div.col-xs-offset-2{
+            padding-left: 5px;
+        }
+    </style>
 </head>
 <body>
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
@@ -40,19 +61,17 @@
     </nav>
 
     <br>
+    <div id="wrap">
     <div class="col-lg-12">
-        <div class="col-lg-3">
-            
+        <div class="col-lg-2">
+            <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
         </div>
-        <div class="col-lg-6">
-            <h1 style="color:#090; font-family:sans-serif; font-weight:700; font-size:55px; text-align:center">Fines</h1><br><br>
-        </div>
-        <div class="col-lg-1">
-            
+        <div class="col-lg-8">
+            <h1 class="main-heading">Fines</h1><br>
         </div>
         <div class="col-lg-2">
-            <br><br><br>
-            <a id="reset" href="updatefines.php" class="btn btn-default btn-xs custom-button" style="background:#000; bottom:1%; position:absolute;color:#FFF; font-weight:bold; margin: auto; margin-left: 100px;">Update Fines</a>
+            <p>Today's date is <?php echo date('Y-m-d');?></p><br><br>
+            <a id="update" href="updatefines.php" class="btn btn-default btn-xs new-button">Update Fines</a>
         </div>
     </div>
 <?php
@@ -61,23 +80,27 @@
     else
         $cardNo = '';
 ?>
+    <div class="col-lg-12">
+    <div class="col-lg-offset-2 col-lg-8">
     <form class="form-horizontal" action="fines.php" method="get">
-        <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Enter the card No.</p>
+        <p class="info1">Please enter the Card ID</p>
         <div class="form-group">
-            <label for="cardNo" class="control-label col-xs-3" style="color:#CCC; font-weight:bold; font-size:20px">Card No.</label>
-            <div class="col-xs-9">
-                <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No....." style="max-width:1000px; font-weight:bold" value="<?php echo $cardNo?>">
+            <label for="cardNo" class="control-label col-xs-2">Borrower ID</label>
+            <div class="col-xs-10">
+                <input type="text" id="cardNo" class="form-control" name="cardNo" placeholder="Enter Card No....." value="<?php echo $cardNo?>">
             </div>
         </div>
         <div class="form-group">
-            <div class="col-xs-offset-3  col-xs-2" style="margin-right: 20px; padding-left: 5px;">
-                <button type="submit" class="btn btn-primary custom-button" style="color:#FFF; background:#000; font-weight: bold; margin: 2px solid #000;">Search</button>
+            <div class="col-xs-offset-2  col-xs-2">
+                <button type="submit" class="btn btn-primary new-button">Search</button>
             </div>
         </div>
     </form>
+    </div>
+    </div>
 
 <?php
-    if(isset($_GET['cardNo']) && !isset($_GET['pay'])){
+    if($cardNo != '' && !isset($_GET['pay'])){
         $cardNo = $_GET['cardNo'];
         include('mysql_connect.php');
 
@@ -90,27 +113,27 @@
         if($resultarr['fine'] != NULL) {
 
 ?>
-            <br><p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">You have an outstanding due of $<?php echo $resultarr['fine'];?></p>
-            <a href="fines.php?cardNo=<?php echo $cardNo;?>&pay=1" class="btn btn-primary" style="color:#000; background:#FFF; margin-left:5%">Pay Fine</a>
+            <br><p class="info1">You have an outstanding due of $<?php echo $resultarr['fine'];?> <a href="fines.php?cardNo=<?php echo $cardNo;?>&pay=1" class="btn btn-primary new-button-small">Pay Fine</a></p>
+            
 <?php
         }else{
 ?>  
-            <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">No fines for this user.</p>
+            <p class="info1">No fines for this user.</p>
 <?php
         }
 
         mysqli_close($con);
     }
-    if(isset($_GET['cardNo']) && isset($_GET['pay'])){
+    if($cardNo != '' && isset($_GET['pay'])){
         $cardNo = $_GET['cardNo'];
         include('mysql_connect.php');
         $query1 = "SELECT * FROM fines, book_loans WHERE fines.loan_id = book_loans.loan_id and book_loans.card_id = '".$cardNo."' and paid = '0';";
         $query = "SELECT COUNT(*) FROM book_loans where card_id = '".$cardNo."' AND due_date < '".date("Y-m-d")."' AND date_in IS NULL;"; //Check if books have been returned
-        echo $query1;
+        //echo $query1;
         $result2 = mysqli_query($con, $query1);
         //$resultarr2 = mysqli_fetch_array($result2);
 ?>
-        <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
+        <table class="table table-center-align">
         
             <thead>
                 <tr>
@@ -140,7 +163,7 @@
 <?php
             }else{
 ?>
-                    <td><button type="button" id=" <?php echo $resultarr2['loan_id']?> " class="btn btn-primary" style="background:#090;" data-loanid="<?php echo $resultarr2['loan_id']; ?>" onClick="pay_fine(this.id)">Pay Fine</button></td>
+                    <td><button type="button" id=" <?php echo $resultarr2['loan_id']?> " class="btn btn-primary new-button-small" data-loanid="<?php echo $resultarr2['loan_id']; ?>" onClick="pay_fine(this.id)">Pay Fine</button></td>
                 </tr>
 <?php
             }
@@ -150,20 +173,20 @@
     if(isset($_GET['loanid'])){
         include('mysql_connect.php');
         $query = "SELECT * FROM fines where loan_id = '".$_GET['loanid']."';";
-        echo $query;
+        //echo $query;
         $result = mysqli_query($con, $query);
         if($result->num_rows == 1){
             $query = "UPDATE fines SET paid = '1' where loan_id = '".$_GET['loanid']."';";
-            echo $query;
+            //echo $query;
             $result1 = mysqli_query($con, $query);
             if($result1){
 ?>
-                <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Fine Paid for this book</p>
-                <a type="button" class="btn" style="background:#090; color:#FFF; font-weight:bold" href="fines.php">Done</a>
+                <p class="info1">Fine Paid for this book <a type="button" class="btn btn-primary new-button-small" href="fines.php">Done</a></p>
+                
 <?php
             }else{
 ?>
-                <p style="color:#000; font-size:18px; font-weight:bold; text-align:left; margin-left:5%; font-style:italic">Couldn't pay the fine</p>
+                <p class="info1">Couldn't pay the fine</p>
 <?php
             }
         }else{
@@ -172,7 +195,11 @@
         mysqli_close($con);
     }
            
-?> 
+?>
+</tbody>
+</table>
+<div class="push"></div>
+</div>
 <script>
     
 function pay_fine(buttonID){
@@ -182,5 +209,8 @@ function pay_fine(buttonID){
     
 }
 </script>
+    <footer>
+        <p>Design and Development by Rohith Reddy K</p>
+    </footer>
 </body>
 </html>
