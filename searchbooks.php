@@ -15,13 +15,45 @@
     
      <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="validate.css">
     <script src="js/jquery-3.2.1.min.js"></script>
     <!--<script src="js/bootstrap.min.js"></script>-->
 
     <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <style>
+        input{
+            max-width:1000px; 
+            font-weight:bold; 
+        }
+        .col-lg-2 label{
+            text-align: right;
+        }
+        div.form-group{
+            margin: auto;
+        }
+        .container-fluid{
+            background-color: #333333;
+        }
+        a{
+            color: white !important;
+        }
+        a:hover{
+            /*color: #999999 !important;*/
+            font-weight: bold !important;
+        }
+        li.active a{
+            color: black !important;
+        }
+        div.pad{
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
+
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
            <div class="navbar-header">
@@ -39,10 +71,22 @@
         </div>
         
     </nav>
-
+    <div id="wrap">
+    <div class="col-lg-12">
+        <div class="col-lg-2">
+            <br>
+            <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
+        </div>
+        <div class="col-lg-8">
+            <br><br>
+            <h1 class="main-heading">SEARCH BOOKS</h1>
+        </div>
+        <div class="col-lg-2">
+            <br>
+            <p>Today's date is <?php echo date('Y-m-d');?></p>
+        </div>
+    </div>
     <br><br>
-    <h1 style="color: black; font-family: 'Overpass',sans-serif; font-weight:700; font-size:55px; text-align:center">SEARCH BOOKS</h1>
-    <br>
 <?php
     session_start();
     if($_SERVER["REQUEST_METHOD"] == "GET"){
@@ -55,22 +99,36 @@
     //}
 ?>
     <form class="form-horizontal" action="searchbooks.php" method="GET">
-        <div class="form-group">
-            <label for="search" class="control-label col-xs-2" style="color:#000; font-weight:bold; font-size:20px; font-family: 'Raleway', serif;">Search</label>
+        <!--<div class="form-group">
+            <label for="search" class="control-label col-lg-2">Search</label>
             <div class="col-xs-10">
-                <input type="text" class="form-control" name="search" placeholder="..." style="max-width:1000px; font-weight:bold" value="<?php echo $search?>">
+                <input type="text" class="form-control" name="search" placeholder="..." value="<?php echo $search?>">
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-2 col-xs-10">
                 <button type="submit" class="btn btn-primary custom-button" style="background:#F00; font-weight:bold">Search</button>
             </div>
+        </div>-->
+        <div class="form-group col-lg-12">
+            <div class="col-lg-1 col-lg-offset-2 pad">
+                <label for="search">Search</label>
+            </div>
+            <div class="col-lg-6 pad">
+                <input type="text" class="form-control" name="search" placeholder="..." value="<?php echo $search?>">
+            </div>
+            <div class="col-lg-3">
+                <button type="submit" class="btn btn-primary new-button">Search</button>
+            </div>
         </div>
     </form> 
 <?php
-        if($search == '')
-            echo "Please enter a search query";
-        else{
+        if($search == ''){
+?>
+            <p class="info1 error">Please enter a search query</p>
+<?php
+            //echo "Please enter a search query";
+        }else{
         include('mysql_connect.php');
         //echo var_dump($con)."<br>";
         /*$count = substr_count($search, ',');
@@ -98,24 +156,21 @@
             $query1 = $query1 . " AND (book.isbn like '%".$value."%' or book.title like '%".$value."%' or authors.author_name like '%".$value."%')";
         }
         $query1 = $query1 . " limit 1000;";
-        echo $query1;        
+        //echo $query1;        
 
         $query = "SELECT DISTINCT(book.isbn) FROM book, book_authors, authors where book.isbn = book_authors.isbn and authors.author_id = book_authors.author_id and (book.isbn like '%".$search."%' or book.title like '%".$search."%' or authors.author_name like '%".$search."%') limit 1000;";
 
         $result = mysqli_query($con, $query1);
         //echo var_dump($result);
         if($result->num_rows == 0){
-            echo "Nothing matches input string";
-            echo "Try entering different words";
-        }else{
-            echo $result->num_rows;
-
-        //}
-        //mysqli_close($con);
-    //}
 ?>
-    <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;">
-        <caption class="text-right" style="color:#C00; font-style:italic; font-weight:bold; font-size:20px"><?php echo $result->num_rows;?> Results</caption>  
+            <p class="info1 error">No results found</p>
+<?php
+        }else{
+?>
+    <p class="info1 ok">Search query returned the following results</p>
+    
+    <table class="table table-center-align" style="color:#000; background:#999; max-width:1200px;"> 
         <thead>
             <tr>
                 <th>Book ID</th>
@@ -151,7 +206,7 @@
                 <td>
                     <?php if($flag){
                     ?>
-                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary new-button" style="background:#090;" data-isbn="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
+                    <button type="button" id=" <?php echo $resultarr['isbn'];?> " class="btn btn-primary new-button-small" data-isbn="<?php echo $resultarr['isbn']; ?>" data-bookTitle="<?php echo $resultarr['title'];?>" onClick="checkout(this.id)">Checkout</button>
                     <?php
                         }
                     ?>    
@@ -167,7 +222,8 @@
 ?>
         </tbody>
     </table>
-
+    <div class="push"></div>
+    </div>
     <script>
     function checkout(buttonID){
         var button=document.getElementById(buttonID);
@@ -180,5 +236,6 @@
     </script>
 
     <footer>
+        <p>Design and Development by Rohith Reddy K</p>
     </footer>
 </body>
