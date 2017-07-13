@@ -107,6 +107,7 @@
 <?php
     if(!isset($_GET['filter'])){
 ?>
+        <br>
         <p class="info1">FINES TABLE UPDATED. Here is a list of all outstanding fines:  </p> 
 <?php
         $query = "SELECT book_loans.card_id, borrowers.Bname, SUM(fines.fine_amt) as fine from fines,book_loans,borrowers WHERE fines.loan_id = book_loans.loan_id AND book_loans.card_id=borrowers.card_id and paid = '0' group by book_loans.card_id;";

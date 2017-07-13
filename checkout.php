@@ -57,12 +57,15 @@
     <div id="wrap">
     <div class="col-lg-12">
         <div class="col-lg-2">
+            <br>
             <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
         </div>
         <div class="col-lg-8">
+            <br>
             <h1 class="main-heading">Check Out</h1>
         </div>
         <div class="col-lg-2">
+            <br>
             <p>Today's date is <?php echo date('Y-m-d');?></p>
         </div>
     </div>
@@ -90,7 +93,7 @@
         </div>
         <div class="form-group">
             <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit" class="btn btn-primary" style="color:#FFF; background:#090">Confirm</button>
+                <button type="submit" class="btn btn-primary new-button">Confirm</button>
             </div>
         </div>
     </form>

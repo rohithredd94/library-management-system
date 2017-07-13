@@ -60,6 +60,7 @@
     <div id="wrap">
     <div class="col-lg-12">
         <div class="col-lg-2">
+            <br>
             <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
         </div>
         <div class="col-lg-8">
@@ -67,6 +68,7 @@
             <h1 class="main-heading">SEARCH BOOKS</h1>
         </div>
         <div class="col-lg-2">
+            <br>
             <p>Today's date is <?php echo date('Y-m-d');?></p>
         </div>
     </div>

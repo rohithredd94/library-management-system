@@ -67,6 +67,7 @@
     </nav>
     <div id="wrap">
     <div class="col-lg-12">
+        <br>
         <div class="col-lg-2">
             <p>Hi, <?php echo $_SESSION['name']?>.<br>You are logged in as <?php echo $_SESSION['username']?>.</p>
         </div>
