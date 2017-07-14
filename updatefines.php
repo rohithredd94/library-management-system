@@ -95,7 +95,8 @@
             //echo "In fines"."<br>";
             $index = array_search($resultarr['loan_id'], $finelist);
             if($paidlist[$index] == '0'){
-                $query = "UPDATE FINES SET fine_amt = '".$daydiff*0.25."' WHERE loan_id = '".$resultarr['loan_id']."';";
+                $fineamt = $daydiff * 0.25;
+                $query = "UPDATE fines SET fine_amt = '".$fineamt."' WHERE loan_id = '".$resultarr['loan_id']."';";
                 //echo $query;
                 $result3 = mysqli_query($con,$query);
             }
