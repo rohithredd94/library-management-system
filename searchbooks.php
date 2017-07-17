@@ -150,7 +150,9 @@
         //echo var_dump($result);
         if($result->num_rows == 0){
 ?>
-            <p class="info1 error">No results found</p>
+        <div class="col-lg-12">
+            <br><p class="info1 error">&nbsp; No results found</p>
+        </div>
 <?php
         }else{
 ?>
