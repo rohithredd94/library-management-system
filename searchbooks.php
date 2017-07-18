@@ -35,6 +35,9 @@
         div.form-group{
             margin: auto;
         }
+        p.info1{
+            font-size: 22px;
+        }
         
     </style>
 </head>

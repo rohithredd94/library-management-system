@@ -187,6 +187,12 @@
                 </tbody>
             </table> 
 <?php
+            }else{
+?>
+                <div class="col-lg-12">
+                    <br><p class="info1 error">&nbsp; No results found</p>
+                </div>
+<?php
             }
 
         }
